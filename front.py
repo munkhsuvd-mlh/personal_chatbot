@@ -15,13 +15,13 @@ from psycopg2.extras import RealDictCursor
 import datetime
 
 st.set_page_config(
-    page_title="MonLogistics Group Chatbot", 
+    page_title="Way Academy - Demo chatbot", 
     page_icon="🤖"
 )
 
-st.title("MLG ажилтны туслах")
+st.title("Way  Academy - Demo chatbot")
 st.info(
-    """Тестийн хувилбар"""
+    """AI chatbot course deliverable demonstration"""
 )
 
 ### Environment variables --- Streamlit secrets
@@ -31,16 +31,6 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 client = OpenAI()
 
-POSTGRES_URL = st.secrets["POSTGRES_URL"]
-
-
-def get_user_ip():
-    try:
-        response = requests.get("https://api.ipify.org?format=json")
-        ip = response.json()["ip"]
-        return ip
-    except:
-        return "Unable to get IP"
         
 ### Chat Session Control
 
@@ -60,7 +50,7 @@ if "waiting" not in st.session_state:
 
 
 ### Assistant
-assistant_id = 'asst_d3D7Oze5S6AZIz5GuT6rDnUT'
+assistant_id = 'asst_rTZARYlh6HbrxvIzSqzd91Yk'
     
 
 ### Chat user prompt & response generation
@@ -88,36 +78,9 @@ if st.session_state.waiting:
           role="assistant",
           content="Today's date is" + today,
         )
-
-        conn = psycopg2.connect(POSTGRES_URL)
-        cur = conn.cursor()
-    
-        insert_query = """
-            INSERT INTO mlh_chat_threads (
-                thread_id, channel, ip, assistant_type, created_at
-            ) VALUES (%s, %s, %s, %s, %s);
-        """
-    
-        cur.execute(insert_query, (
-            thread_id,
-            "web",
-            get_user_ip(),
-            "employee",
-            datetime.datetime.now()
-        ))
-    
-        conn.commit()
         
     else:
         thread_id = st.session_state.thread_id
-
-    # Get last user prompt (saved before rerun)
-    #last_prompt = st.session_state.messages[-1]["output"] if st.session_state.messages else prompt
-
-    # Add user message if it's not already added
-    # if not st.session_state.messages or st.session_state.messages[-1]["role"] != "user":
-    # st.chat_message("user").markdown(prompt)
-    # st.session_state.messages.append({"role": "user", "output": prompt})
 
     last_prompt = st.session_state.messages[-1]["output"] if st.session_state.messages else prompt
     
@@ -133,9 +96,9 @@ if st.session_state.waiting:
 
         
 ### Sidebar
-with st.sidebar:
-    st.title("Тестийн чадамж")
-    st.write("1. Тээврийн салбарын бүх нэршил, агуулга")
-    st.write("2. Бүх ажилчдад нээлттэй дотоод журмууд")
-    st.divider()
-    st.write(st.session_state.thread_id)
+# with st.sidebar:
+#     st.title("Тестийн чадамж")
+#     st.write("1. Тээврийн салбарын бүх нэршил, агуулга")
+#     st.write("2. Бүх ажилчдад нээлттэй дотоод журмууд")
+#     st.divider()
+#     st.write(st.session_state.thread_id)
