@@ -9,9 +9,6 @@ import json
 import re
 from openai import OpenAI
 import backend.backend as mlh 
-import dotenv
-import psycopg2
-from psycopg2.extras import RealDictCursor
 import datetime
 
 st.set_page_config(
