@@ -5,14 +5,11 @@ import numpy as np
 import streamlit as st
 import openai
 import requests
-import dotenv
 import os
 import re
 import json
 from dataclasses import dataclass, asdict
 from typing import Optional
-import psycopg2
-from psycopg2.extras import RealDictCursor
 from datetime import date, datetime
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
